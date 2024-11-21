@@ -1,7 +1,7 @@
 interface IMezzo {
     tipo: string;
     ID: string;
-    libero: boolean;
+    stato: 'disponibile' | 'in uso'; 
     utente?: IUtente;
 
     assegnaUtente(utente: IUtente): void;
@@ -10,7 +10,7 @@ interface IMezzo {
 interface IUtente {
     nome: string;
     cognome: string;
-    mail: string;
+    email: string; 
     pagamento: string;
     mezzo?: IMezzo;
 
@@ -19,27 +19,27 @@ interface IUtente {
 
 interface ICitta {
     nome: string;
-    mezzi: IMezzo[];
+    mezzi: IMezzo[]; 
 
-    aggiungiMezzo(nuovoMezzo: IMezzo): void;
+    aggiungiMezzo(nuovoMezzo: IMezzo): void; 
 }
 
 class Mezzo implements IMezzo {
     tipo: string;
     ID: string;
-    libero: boolean;
+    stato: 'disponibile' | 'in uso'; 
     utente?: IUtente;
 
-    constructor(tipo: string, ID: string, libero: boolean) {
+    constructor(tipo: string, ID: string, stato: 'disponibile' | 'in uso') {
         this.tipo = tipo;
         this.ID = ID;
-        this.libero = libero;
+        this.stato = stato; 
     }
 
     assegnaUtente(utente: IUtente) {
-        if (this.libero) {
+        if (this.stato === 'disponibile') { 
             this.utente = utente;
-            this.libero = false;
+            this.stato = 'in uso'; 
         } else {
             console.log('Il mezzo è già prenotato.');
         }
@@ -49,19 +49,19 @@ class Mezzo implements IMezzo {
 class Utente implements IUtente {
     nome: string;
     cognome: string;
-    mail: string;
+    email: string; 
     pagamento: string;
     mezzo?: IMezzo;
 
-    constructor(nome: string, cognome: string, mail: string, pagamento: string) {
+    constructor(nome: string, cognome: string, email: string, pagamento: string) {
         this.nome = nome;
         this.cognome = cognome;
-        this.mail = mail;
+        this.email = email;
         this.pagamento = pagamento;
     }
 
     prenotaMezzo(mezzo: IMezzo): void {
-        if (mezzo.libero) {
+        if (mezzo.stato === 'disponibile') { 
             this.mezzo = mezzo;
             mezzo.assegnaUtente(this);
         } else {
@@ -72,23 +72,23 @@ class Utente implements IUtente {
 
 class Citta implements ICitta {
     nome: string;
-    mezzi: IMezzo[];
+    mezzi: IMezzo[]; 
 
     constructor(nome: string, mezzi: IMezzo[]) {
         this.nome = nome;
         this.mezzi = mezzi;
     }
 
-    aggiungiMezzo(nuovoMezzo: IMezzo): void {
+    aggiungiMezzo(nuovoMezzo: IMezzo): void { 
         this.mezzi.push(nuovoMezzo);
     }
 }
 
 // CREAZIONE ISTANZE
 
-let bici = new Mezzo('bicicletta', 'B798903', true);
-let monopattino = new Mezzo('monopattino', 'M245636', true);
-let scooter = new Mezzo('scooter', 'S043876', true);
+let bici = new Mezzo('bicicletta', 'B798903', 'disponibile');
+let monopattino = new Mezzo('monopattino', 'M245636', 'disponibile');
+let scooter = new Mezzo('scooter', 'S043876', 'disponibile');
 
 let utente1 = new Utente('Mario', 'Rossi', 'rossimario@gmail.com', 'PayPal');
 let utente2 = new Utente('Giuseppe', 'Verdi', 'verdigiuseppe@gmail.com', 'PayPal');
@@ -102,4 +102,4 @@ utente1.prenotaMezzo(bici);
 utente2.prenotaMezzo(monopattino);
 utente3.prenotaMezzo(scooter);
 
-Milano.aggiungiMezzo(new Mezzo('bicicletta', 'B888763', true));
+Milano.aggiungiMezzo(new Mezzo('bicicletta', 'B888763', 'disponibile'));
