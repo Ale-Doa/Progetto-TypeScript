@@ -52,7 +52,22 @@ var utente2 = new Utente('Giuseppe', 'Verdi', 'verdigiuseppe@gmail.com', 'PayPal
 var utente3 = new Utente('Alessandro', 'Manzoni', 'manzonialessandro@gmail.com', 'PayPal');
 var Milano = new Citta('Milano', [bici, monopattino, scooter]);
 // PROVA METODI 
+console.log('--- Inizio del Test ---');
+console.log('Stato iniziale dei mezzi:');
+console.log(Milano.mezzi);
+console.log('\nUtente 1 prenota la bici:');
 utente1.prenotaMezzo(bici);
+console.log('Bici assegnata a:', bici.utente);
+console.log('Stato della bici:', bici.stato);
+console.log('\nUtente 2 tenta di prenotare la bici già prenotata:');
+utente2.prenotaMezzo(bici);
+console.log('\nUtente 2 prenota il monopattino:');
 utente2.prenotaMezzo(monopattino);
-utente3.prenotaMezzo(scooter);
-Milano.aggiungiMezzo(new Mezzo('bicicletta', 'B888763', 'disponibile'));
+console.log('Monopattino assegnato a:', monopattino.utente);
+console.log('Stato del monopattino:', monopattino.stato);
+console.log('\nAggiunta di un nuovo mezzo (bicicletta) a Milano:');
+var nuovaBici = new Mezzo('bicicletta', 'B888763', 'disponibile');
+Milano.aggiungiMezzo(nuovaBici);
+console.log('Stato dei mezzi dopo l\'aggiunta:');
+console.log(Milano.mezzi);
+console.log('--- Fine del Test ---');
