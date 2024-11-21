@@ -5,7 +5,7 @@ interface IMezzo {
     utente?: IUtente;
 
     assegnaUtente(utente: IUtente): void;
-};
+}
 
 interface IUtente {
     nome: string;
@@ -15,14 +15,14 @@ interface IUtente {
     mezzo?: IMezzo;
 
     prenotaMezzo(mezzo: IMezzo): void;
-};
+}
 
 interface ICitta {
     nome: string;
-    mezzi: string[];
+    mezzi: IMezzo[];
 
-    aggiungiMezzo(nuovoMezzo: string): void;
-};
+    aggiungiMezzo(nuovoMezzo: IMezzo): void;
+}
 
 class Mezzo implements IMezzo {
     tipo: string;
@@ -34,12 +34,17 @@ class Mezzo implements IMezzo {
         this.tipo = tipo;
         this.ID = ID;
         this.libero = libero;
-    };
+    }
+
     assegnaUtente(utente: IUtente) {
-        this.utente = utente;
-        this.libero = false;
-    };
-};
+        if (this.libero) {
+            this.utente = utente;
+            this.libero = false;
+        } else {
+            console.log('Il mezzo è già prenotato.');
+        }
+    }
+}
 
 class Utente implements IUtente {
     nome: string;
@@ -53,29 +58,31 @@ class Utente implements IUtente {
         this.cognome = cognome;
         this.mail = mail;
         this.pagamento = pagamento;
-    };
+    }
+
     prenotaMezzo(mezzo: IMezzo): void {
-        if (this.mezzo) {
+        if (mezzo.libero) {
             this.mezzo = mezzo;
             mezzo.assegnaUtente(this);
-        }else {
-            console.log('il mezzo è attualmente prenotato');
-        };
-    };
-};
+        } else {
+            console.log('Il mezzo è attualmente prenotato.');
+        }
+    }
+}
 
 class Citta implements ICitta {
     nome: string;
-    mezzi: string[];
+    mezzi: IMezzo[];
 
-    constructor(nome: string, mezzi: string[]) {
+    constructor(nome: string, mezzi: IMezzo[]) {
         this.nome = nome;
         this.mezzi = mezzi;
-    };
-    aggiungiMezzo(nuovoMezzo: string): void {
+    }
+
+    aggiungiMezzo(nuovoMezzo: IMezzo): void {
         this.mezzi.push(nuovoMezzo);
-    };
-};
+    }
+}
 
 // CREAZIONE ISTANZE
 
@@ -87,12 +94,12 @@ let utente1 = new Utente('Mario', 'Rossi', 'rossimario@gmail.com', 'PayPal');
 let utente2 = new Utente('Giuseppe', 'Verdi', 'verdigiuseppe@gmail.com', 'PayPal');
 let utente3 = new Utente('Alessandro', 'Manzoni', 'manzonialessandro@gmail.com', 'PayPal');
 
-let Milano = new Citta('Mikano', ['B798903', 'M245636', 'S043876']);
+let Milano = new Citta('Milano', [bici, monopattino, scooter]);
 
 // PROVA METODI 
 
-bici.assegnaUtente(utente1);
-monopattino.assegnaUtente(utente2);
-scooter.assegnaUtente(utente3);
+utente1.prenotaMezzo(bici);
+utente2.prenotaMezzo(monopattino);
+utente3.prenotaMezzo(scooter);
 
-Milano.aggiungiMezzo('B888763')
+Milano.aggiungiMezzo(new Mezzo('bicicletta', 'B888763', true));
