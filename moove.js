@@ -5,9 +5,9 @@ var Mezzo = /** @class */ (function () {
         this.stato = stato;
     }
     Mezzo.prototype.assegnaUtente = function (utente) {
-        if (this.stato === 'disponibile') {
+        if (this.stato === "disponibile" /* StatoMezzo.DISPONIBILE */) {
             this.utente = utente;
-            this.stato = 'in uso';
+            this.stato = "in uso" /* StatoMezzo.IN_USO */;
         }
         else {
             console.log('Il mezzo è già prenotato.');
@@ -23,7 +23,7 @@ var Utente = /** @class */ (function () {
         this.pagamento = pagamento;
     }
     Utente.prototype.prenotaMezzo = function (mezzo) {
-        if (mezzo.stato === 'disponibile') {
+        if (mezzo.stato === "disponibile" /* StatoMezzo.DISPONIBILE */) {
             this.mezzo = mezzo;
             mezzo.assegnaUtente(this);
         }
@@ -44,9 +44,9 @@ var Citta = /** @class */ (function () {
     return Citta;
 }());
 // CREAZIONE ISTANZE
-var bici = new Mezzo('bicicletta', 'B798903', 'disponibile');
-var monopattino = new Mezzo('monopattino', 'M245636', 'disponibile');
-var scooter = new Mezzo('scooter', 'S043876', 'disponibile');
+var bici = new Mezzo('bicicletta', 'B798903', "disponibile" /* StatoMezzo.DISPONIBILE */);
+var monopattino = new Mezzo('monopattino', 'M245636', "disponibile" /* StatoMezzo.DISPONIBILE */);
+var scooter = new Mezzo('scooter', 'S043876', "disponibile" /* StatoMezzo.DISPONIBILE */);
 var utente1 = new Utente('Mario', 'Rossi', 'rossimario@gmail.com', 'PayPal');
 var utente2 = new Utente('Giuseppe', 'Verdi', 'verdigiuseppe@gmail.com', 'PayPal');
 var utente3 = new Utente('Alessandro', 'Manzoni', 'manzonialessandro@gmail.com', 'PayPal');
@@ -66,7 +66,7 @@ utente2.prenotaMezzo(monopattino);
 console.log('Monopattino assegnato a:', monopattino.utente);
 console.log('Stato del monopattino:', monopattino.stato);
 console.log('\nAggiunta di un nuovo mezzo (bicicletta) a Milano:');
-var nuovaBici = new Mezzo('bicicletta', 'B888763', 'disponibile');
+var nuovaBici = new Mezzo('bicicletta', 'B888763', "disponibile" /* StatoMezzo.DISPONIBILE */);
 Milano.aggiungiMezzo(nuovaBici);
 console.log('Stato dei mezzi dopo l\'aggiunta:');
 console.log(Milano.mezzi);

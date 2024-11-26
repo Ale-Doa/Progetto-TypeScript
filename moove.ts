@@ -1,45 +1,48 @@
+const enum StatoMezzo {
+    DISPONIBILE = 'disponibile',
+    IN_USO = 'in uso',
+    ASSEGNATO = 'assegnato'
+}
+
 interface IMezzo {
     tipo: string;
     ID: string;
-    stato: 'disponibile' | 'in uso'; 
+    stato: StatoMezzo; 
     utente?: IUtente;
-
     assegnaUtente(utente: IUtente): void;
 }
 
 interface IUtente {
     nome: string;
     cognome: string;
-    email: string; 
+    email: string;
     pagamento: string;
     mezzo?: IMezzo;
-
     prenotaMezzo(mezzo: IMezzo): void;
 }
 
 interface ICitta {
     nome: string;
-    mezzi: IMezzo[]; 
-
-    aggiungiMezzo(nuovoMezzo: IMezzo): void; 
+    mezzi: IMezzo[];
+    aggiungiMezzo(nuovoMezzo: IMezzo): void;
 }
 
 class Mezzo implements IMezzo {
     tipo: string;
     ID: string;
-    stato: 'disponibile' | 'in uso'; 
+    stato: StatoMezzo; 
     utente?: IUtente;
 
-    constructor(tipo: string, ID: string, stato: 'disponibile' | 'in uso') {
+    constructor(tipo: string, ID: string, stato: StatoMezzo) {
         this.tipo = tipo;
         this.ID = ID;
-        this.stato = stato; 
+        this.stato = stato;
     }
 
     assegnaUtente(utente: IUtente) {
-        if (this.stato === 'disponibile') { 
+        if (this.stato === StatoMezzo.DISPONIBILE) { 
             this.utente = utente;
-            this.stato = 'in uso'; 
+            this.stato = StatoMezzo.IN_USO; 
         } else {
             console.log('Il mezzo è già prenotato.');
         }
@@ -49,7 +52,7 @@ class Mezzo implements IMezzo {
 class Utente implements IUtente {
     nome: string;
     cognome: string;
-    email: string; 
+    email: string;
     pagamento: string;
     mezzo?: IMezzo;
 
@@ -61,7 +64,7 @@ class Utente implements IUtente {
     }
 
     prenotaMezzo(mezzo: IMezzo): void {
-        if (mezzo.stato === 'disponibile') { 
+        if (mezzo.stato === StatoMezzo.DISPONIBILE) { 
             this.mezzo = mezzo;
             mezzo.assegnaUtente(this);
         } else {
@@ -72,23 +75,23 @@ class Utente implements IUtente {
 
 class Citta implements ICitta {
     nome: string;
-    mezzi: IMezzo[]; 
+    mezzi: IMezzo[];
 
     constructor(nome: string, mezzi: IMezzo[]) {
         this.nome = nome;
         this.mezzi = mezzi;
     }
 
-    aggiungiMezzo(nuovoMezzo: IMezzo): void { 
+    aggiungiMezzo(nuovoMezzo: IMezzo): void {
         this.mezzi.push(nuovoMezzo);
     }
 }
 
 // CREAZIONE ISTANZE
 
-let bici = new Mezzo('bicicletta', 'B798903', 'disponibile');
-let monopattino = new Mezzo('monopattino', 'M245636', 'disponibile');
-let scooter = new Mezzo('scooter', 'S043876', 'disponibile');
+let bici = new Mezzo('bicicletta', 'B798903', StatoMezzo.DISPONIBILE); 
+let monopattino = new Mezzo('monopattino', 'M245636', StatoMezzo.DISPONIBILE); 
+let scooter = new Mezzo('scooter', 'S043876', StatoMezzo.DISPONIBILE); 
 
 let utente1 = new Utente('Mario', 'Rossi', 'rossimario@gmail.com', 'PayPal');
 let utente2 = new Utente('Giuseppe', 'Verdi', 'verdigiuseppe@gmail.com', 'PayPal');
@@ -117,7 +120,7 @@ console.log('Monopattino assegnato a:', monopattino.utente);
 console.log('Stato del monopattino:', monopattino.stato);
 
 console.log('\nAggiunta di un nuovo mezzo (bicicletta) a Milano:');
-let nuovaBici = new Mezzo('bicicletta', 'B888763', 'disponibile');
+let nuovaBici = new Mezzo('bicicletta', 'B888763', StatoMezzo.DISPONIBILE); 
 Milano.aggiungiMezzo(nuovaBici);
 console.log('Stato dei mezzi dopo l\'aggiunta:');
 console.log(Milano.mezzi);
